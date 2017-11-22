@@ -1,0 +1,20 @@
+How does your data structure allow developers to access and 
+manipulate the data?
+
+Developers can access pixel info as well as create/insert pixels into
+the matrix.
+---------------------------------------------------
+If a developer wanted to find a specific element in your data structure,
+how would you search for it?
+
+They can use the #at method to find an element at a specific coordinate.
+----------------------------------------------------
+What other real-world data can each structure represent?
+
+This type of 2D data set where each element contains data is used in a lot
+of geophysical surveys. Think for example if you did a magnetics survey 
+where over a 1km by 1km grid on a field, you measured the Earth's magnetic
+field every 1 meter. You could represent that using a this data structure. Your
+width/height would be the lengths of your survery area. And instead of pixel
+info (r,g,b) at each element, you would have a magnetic field strength measurement,
+so Tesla (or Nano-tesla).

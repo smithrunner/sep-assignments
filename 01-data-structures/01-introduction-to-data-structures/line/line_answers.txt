@@ -1,0 +1,19 @@
+How does your data structure allow developers to access 
+and manipulate the data?
+
+My data structure allows you to add/remove strings from the array. (Members
+from the line).
+----------------------------------------------------------
+If a developer wanted to find a specific element in your data structure,
+how would you search for it?
+
+Index through each element in the array and test to see if it matches
+the specific element you are searching for.
+------------------------------------------------------------
+
+What other real-world data can each structure represent?
+
+This structure could represent anything where you needed a list and the
+order mattered. An example would be a sign-up sheet for an online class where
+space is limited. Since it is first-come-first-serve, the order of the list
+is important.
