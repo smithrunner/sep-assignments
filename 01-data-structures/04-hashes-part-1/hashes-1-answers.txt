@@ -1,0 +1,6 @@
+Doubling the size of your array after a collision seems like overkill for
+the problem. Your array will start to quickly grow in size but be full of lots
+of "nils". 
+
+Plus doubling your array could potentialy not solve your collision problem (in this
+example of making a hash code).
