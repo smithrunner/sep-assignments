@@ -1,0 +1,34 @@
+Describe three collision resolution strategies not mentioned here.
+1) Robin Hood Hashing:
+    when you probe for a position to insert a new element, if the probe length 
+    for the existing element is less than the current probe length for the element 
+    being inserted, swap the two elements and keep going.
+    
+2) Hopscotch Hatching
+    Variation of Open Addressing w/ buckets. You hash an element and look at the
+    bucket it sends you to. If that bucket is full, you look at it's "neighborhood",
+    or bucekts that are close by, for an opening. If nothing in the neighborhood is available,
+    resize the array.
+    
+3) Coalesced Hashing
+    Combination of open addressing and separate chaining. You use separate chaining
+    as normal until your Load Factor is reached. But then instead of resizing, you
+    use any open addressing method (linear, quadratic, hopscotch, etc) to move the hashed
+    element to a new slot.
+
+
+
+Create your own collision resolution strategy and describe how it works.
+
+Separate chaining until you have X elements chained at the same index, whatever X
+value you want as the maximum. Then the next element to get hashed to that index,
+instead of chaining a 6th element, you would move the index up 1. It is like linear
+open addressing combinged with separate chaining. So instead of resizing the array
+at a certain load factor, you are just caping off the max chain size and moving the index
+along.
+
+When performing a lookup, you would check the index you are hashed too, checking for the key.
+If the key is not found, you just need to move the index along 1 and check that next chain.
+
+There can be a limit set to the number of index moves before resizing occurs. Basically if there
+is not a spot available in the first 3 indexes, the array is resized.
