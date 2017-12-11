@@ -32,7 +32,7 @@ RSpec.describe MinBinaryHeap, type: Class do
       tree.insert(root, empire)
       tree.insert(root, mad_max_2)
       
-      expect(root.title).to eq "mad_max_2"
+      expect(root.left.title).to eq "Mad Max 2: The Road Warrior"
     end
     
     

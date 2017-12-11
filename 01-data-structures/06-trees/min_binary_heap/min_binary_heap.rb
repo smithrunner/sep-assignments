@@ -10,12 +10,14 @@ class MinBinaryHeap
     if node.rating < root.rating
       if root.left == nil
         root.left = node
+        sort(node)
       else
         insert(root.left, node)
       end
     elsif node.rating > root.rating
       if root.right == nil
         root.right = node
+        sort(node)
       else
         insert(root.right,node)
       end
@@ -72,26 +74,10 @@ class MinBinaryHeap
   private
   
   def swap(parent,child)
-    temp_p = parent
-    temp_c = child
     if parent.left == child
-      parent = temp_c
-      child = temp_p
-        
-      parent.left = temp_c.left
-      parent.right = temp_c.right
-        
-      child.left = parent
-      child.right = temp_p.right
+      puts "parent left = child"
     elsif parent.right == child
-      parent = temp_c
-      child = temp_p
-        
-      parent.left = temp_c.left
-      parent.right = temp_c.right
-        
-      child.left = temp_p.left
-      child.right = parent
+      puts "parent right = child"
     end
   end
   
@@ -99,14 +85,16 @@ class MinBinaryHeap
     index = node
     if index == @root
       return nil
-    end
-    index_parent = find(@root,node)
+    else
+      index_parent = find(@root,node)
     
-    
-    while index != @root || index.rating > index_parent.rating
-      swap(index_parent,index)
-      index = index_parent
-      index_parent = find(@root,index)
+      while index != @root && index.rating > index_parent.rating
+        swap(index_parent,index)
+        puts ""
+        print(@root)
+        index = index_parent
+        index_parent = find(@root,index)
+      end
     end
   end
 end
