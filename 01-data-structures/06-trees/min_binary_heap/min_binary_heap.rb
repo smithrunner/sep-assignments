@@ -1,101 +1,116 @@
 require_relative 'node'
 
 class MinBinaryHeap
-  
-  def initialize(root)
-    @root = root
-  end
-  
-  def insert(root,node)
-    if node.rating < root.rating
-      if root.left == nil
-        root.left = node
-        sort(node)
-      else
-        insert(root.left, node)
-      end
-    elsif node.rating > root.rating
-      if root.right == nil
-        root.right = node
-        sort(node)
-      else
-        insert(root.right,node)
-      end
-    end
-  end
-  
-  def find(root,data)
-    if data == nil
-      return nil
-    elsif root.contain(data)
-      return root
-    end
-    left = find(root.left, data) if root.left
-    right = find(root.right, data) if root.right
-    left or right
-  end
-  
-  def delete(root,data)
-    if data == nil
-      return nil
-    end
-    
-    doomed = find(root,data)
-    doomed_parent = find(root,doomed)
-    
-    if doomed.left == nil && doomed.right == nil
-      
-      if doomed_parent.left == doomed
-        doomed_parent.left = nil
-      elsif doomed_parent.right == doomed
-        doomed_parent.right = nil
-      end
 
-    elsif doomed.left != nil && doomed.right == nil
-      doomed_parent.left = doomed.left
-    elsif doomed.left == nil && doomed.right != nil
-      doomed_parent.right = doomed.right
-    elsif doomed.left != nil && doomed.right != nil
-      doomed_parent.left = doomed.left
+  def initialize(root)
+    @elements = [nil]
+    @element_position_map = Hash.new
+  end
+  
+  def insert(element)
+    @elements << element
+    @element_position_map[element.node_data] = @elements.size - 1
+    
+    sift_up(@elements.size - 1)
+  end
+  
+  def count
+    return @elements.count - 1
+  end
+  
+  def elements
+    return @elements.drop(1)
+  end
+  
+  def peek_min
+    return @elements[1]
+  end
+  
+  def extract_min
+    exchange(1, @elements.size - 1)
+    
+    min_element = @elements.pop
+    @element_position_map.delete(min_element.node_data)
+    
+    sift_down(1)
+    
+    return min_element
+  end
+  
+  def contains_element(element)
+    return @element_position_map.has_key?(element.node_data)
+  end
+  
+  def delete_element(element)
+    element_position = @element_position_map[element.node_data]
+    
+    unless element_position.nil?
+      exchange(element_position, @elements.size - 1)
+      
+      element_to_remove = @elements.pop
+      @element_position_map.delete(element_to_remove.node_data)
+      
+      sift_down(element_position)
+      
+      return element_to_remove
     end
   end
   
-  def print(root)
-    queue = [@root]
-    
-    while queue.size != 0
-      index = queue.shift
-      puts "#{index.title}: #{index.rating}"
-      queue << index.left if index.left
-      queue << index.right if index.right
+  def print_heap
+    puts "printing min heap"
+    @elements.each do |element|
+      if element.nil?
+        puts "nil"
+      else
+        puts "#{element.title.to_s}: #{element.node_data.to_s}"
+      end
     end
   end
   
   private
   
-  def swap(parent,child)
-    if parent.left == child
-      puts "parent left = child"
-    elsif parent.right == child
-      puts "parent right = child"
-    end
+  def sift_up(index)
+    parent_index = (index/2)
+    
+    return if index <= 1
+    return if @elements[index].node_data >= @elements[parent_index].node_data
+    
+    exchange(index, parent_index)
+    
+    sift_up(parent_index)
   end
   
-  def sort(node)
-    index = node
-    if index == @root
-      return nil
-    else
-      index_parent = find(@root,node)
+  def sift_down(index)
+    child_index = (index * 2)
     
-      while index != @root && index.rating > index_parent.rating
-        swap(index_parent,index)
-        puts ""
-        print(@root)
-        index = index_parent
-        index_parent = find(@root,index)
-      end
+    return if child_index > @elements.size - 1
+    
+    not_the_last_element = child_index < @elements.size - 1
+    left_child = @elements[child_index]
+    right_child = @elements[child_index + 1]
+    
+    if not_the_last_element && right_child < left_child
+      child_index += 1
     end
+    
+    return if @elements[index].node_data <= @elements[child_index].node_data
+    
+    exchange(index, child_index)
+    
+    sift_down(child_index)
+  end
+  
+  def exchange(source_index,target_index)
+    tmp_source = @elements[source_index]
+    tmp_target = @elements[target_index]
+
+    source_element_position = @element_position_map[tmp_source.node_data]
+    target_element_position = @element_position_map[tmp_target.node_data]
+
+    @elements[source_index] = tmp_target
+    @elements[target_index] = tmp_source
+
+    @element_position_map[tmp_source.node_data] = target_element_position
+    @element_position_map[tmp_target.node_data] = source_element_position
   end
 end
-    

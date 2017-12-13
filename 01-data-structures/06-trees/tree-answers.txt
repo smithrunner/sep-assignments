@@ -1,0 +1,31 @@
+1. The Heap output is 100% sorted lowest to highest. The Binary Search Treee
+output is somewhat sorted but it still depends on when nodes were inserted.
+The heap contiously sorts itself.
+
+2.
+Binary Tree
+       user     system      total        real
+Insert 10,000 Nodes:   9.020000   0.000000   9.020000 (  9.052222)
+Find 5,000th Node:     0.010000   0.000000   0.010000 (  0.005041)
+Delete 5,000th Node:   0.010000   0.000000   0.010000 (  0.012716)
+
+Min Heap Tree
+       user     system      total        real
+Insert 10,000 Nodes:   0.000000   0.000000   0.000000 (  0.008328)
+Find 5,000th Node:     0.000000   0.000000   0.000000 (  0.000008)
+Delete 5,000th Node:   0.000000   0.000000   0.000000 (  0.000015)
+
+You can see that Min Heap is much faster in all instances for my testing
+of 10,000 nodes with values of 1 through 10,000. A couple reasons for this,
+I inserted the nodes in order. Which means Min Heap never really had to resort
+anything, saving time. Had the nodes been inserted in a more random order,
+the Min Heap times would be greater. Also, for my implementation of Min Heap,
+I used an array representation of the heap. The Binary Tree is more of a linked
+list. This means finding elements in the Binary Tree requires more pointer look ups,
+which is a known downside of linked lists.
+
+If you want the entire list sorted or have a large number of nodes, use Min Heap.
+If you want the tree implemented over an array, use a Heap.
+If you want the tree implemented over a linked list, use a BST.
+If your data strucure is set up in such a way that you care more about
+storing info, than continually looking up the middle elements, use a BST.
